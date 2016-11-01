@@ -11,7 +11,7 @@
         <bean id="eventLogger" class="loggers.ConsoleEventLogger" />
 
         <bean id="app" class="App">
-                <constructor-arg ref="eventLogger"/>
+                <constructor-arg ref="fileEventLogger"/>
                 <constructor-arg ref="client"/>
         </bean>
 
@@ -21,6 +21,13 @@
                 </constructor-arg>
                 <constructor-arg>
                         <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
+                </constructor-arg>
+        </bean>
+        <bean id="fileEventLogger" class="loggers.FileEventLogger">
+                <constructor-arg>
+                        <bean class="java.io.File" scope="singleton">
+                                <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\LogFile.txt"/>
+                        </bean>
                 </constructor-arg>
         </bean>
 
