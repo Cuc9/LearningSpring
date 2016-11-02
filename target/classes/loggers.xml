@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="consoleEventLogger" class="loggers.ConsoleEventLogger" />
+
+    <!--<bean id="fileEventLogger" class="loggers.FileEventLogger" init-method="init" abstract="true">
+            <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\LogFile.txt"/>
+            &lt;!&ndash;<constructor-arg>
+                    <bean class="java.io.File" scope="singleton">
+                            <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\LogFile.txt"/>
+                    </bean>
+            </constructor-arg>&ndash;&gt;
+    </bean>
+    <bean id="cacheFileEventLogger" class="loggers.CacheFileEventLogger" destroy-method="destroy" parent="fileEventLogger">
+            <constructor-arg value="1" type="int"/>
+            &lt;!&ndash;<constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\CachedLogFile.txt"/>&ndash;&gt;
+            &lt;!&ndash;<constructor-arg ref="fileEventLogger"/>&ndash;&gt;
+    </bean>-->
+
+    <bean id="fileEventLogger" class="loggers.FileEventLogger" init-method="init" abstract="true">
+        <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\LogFile.txt"/>
+    </bean>
+
+    <bean id="cacheFileEventLogger" class="loggers.CacheFileEventLogger" destroy-method="destroy" init-method="init">
+        <constructor-arg value="2" type="int"/>
+        <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\CachedLogFile.txt"/>
+    </bean>
+
+    <bean id="combinedEventLogger" class="loggers.CombinedEventLogger">
+        <constructor-arg>
+            <list>
+                <ref bean="consoleEventLogger"/>
+                <ref bean="cacheFileEventLogger"/>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>
