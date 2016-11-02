@@ -2,29 +2,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        <import resource="loggers.xml"/>
 
         <bean id="client" class="beans.Client">
                 <constructor-arg value="1"/>
                 <constructor-arg value="Vasya Pupkin"/>
+                <property name="greeting" value="Hello from "/>
         </bean>
 
-        <bean id="eventLogger" class="loggers.ConsoleEventLogger" />
-
         <bean id="app" class="App">
-                <constructor-arg ref="fileEventLogger"/>
                 <constructor-arg ref="client"/>
+                <constructor-arg ref="cacheFileEventLogger"/>
+                <constructor-arg>
+                        <map>
+                                <entry key="INFO" value-ref="consoleEventLogger"/>
+                                <entry key="ERROR" value-ref="combinedEventLogger"/>
+                        </map>
+                </constructor-arg>
+                <property name="type">
+                        <null/>
+                </property>
         </bean>
 
         <bean id="event" class="beans.Event" scope="prototype">
                 <constructor-arg>
-                        <bean class="java.util.Date" scope="prototype"/>
+                        <bean class="java.util.Date"/>
                 </constructor-arg>
                 <constructor-arg>
-                        <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
+                        <bean class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
                 </constructor-arg>
-        </bean>
-        <bean id="fileEventLogger" class="loggers.FileEventLogger">
-                <constructor-arg value="D:\JAVA\LearningSpring\src\main\resources\LogFile.txt"/>
         </bean>
 
 </beans>

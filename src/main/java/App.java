@@ -1,8 +1,14 @@
 import beans.Client;
 import beans.Event;
+import beans.EventType;
+import loggers.CombinedEventLogger;
 import loggers.IEventLogger;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by arpi on 30.10.2016.
@@ -10,32 +16,46 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class App {
     private Client client;
     private IEventLogger eventLogger;
+    private Map<EventType, IEventLogger> loggers;
+    private static EventType type;
 
     public App() {
     }
 
-    public App(Client client, IEventLogger eventLogger) {
+    public App(Client client, IEventLogger eventLogger, Map<EventType, IEventLogger> loggers) {
         this.client = client;
         this.eventLogger = eventLogger;
+        this.loggers = loggers;
     }
 
-    private void logEvent(String msg, Event event){
-        String message = msg.replaceAll(client.getId(),client.getFullName());
+    public void setType(EventType type) {
+        App.type = type;
+    }
+
+    private void logEvent(String msg, EventType type, Event event) {
+        IEventLogger logger = loggers.get(type);
+        if (logger == null) {
+            logger = eventLogger;
+        }
+        String message = msg.replaceAll(client.getId(), client.getFullName());
         event.setMsg(message);
-        eventLogger.logEvent(event);
+        logger.logEvent(event);
     }
 
     public static void main(String[] args) {
-        //app.client = new beans.Client("1","Vasya Pupkin");
-        //app.eventLogger = new loggers.ConsoleEventLogger();
-
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         App app = ctx.getBean("app", App.class);
-        for (int i = 0; i<5; i++){
+        for (int i = 0; i < 3; i++) {
             try {
-                Thread.sleep(2000);
-            }catch (InterruptedException e){}
-            app.logEvent("Some event for user 1",(Event) ctx.getBean("event"));
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+            app.logEvent("INFO event for user 1", EventType.INFO, (Event) ctx.getBean("event"));
+            for (int j = 0; j < 5; j++) {
+                app.logEvent("DEFAULT/CACHE event for user 1", type, (Event) ctx.getBean("event"));
+            }
+            app.logEvent("ERROR event for user 1", EventType.ERROR, (Event) ctx.getBean("event"));
         }
+        ctx.close();
     }
 }
