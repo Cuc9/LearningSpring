@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
         <import resource="loggers.xml"/>
 
-        <bean id="client" class="beans.Client">
-                <constructor-arg value="1"/>
-                <constructor-arg value="Vasya Pupkin"/>
-                <property name="greeting" value="Hello from "/>
+        <bean id="client" class="beans.Client"
+              c:id="${id}" c:fullName="${fullName}"
+               p:greeting="${greeting}">
+                <property name="type">
+                        <util:constant static-field="java.lang.Math.PI"/>
+                </property>
         </bean>
 
-        <bean id="app" class="App">
-                <constructor-arg ref="client"/>
-                <constructor-arg ref="cacheFileEventLogger"/>
-                <constructor-arg>
-                        <map>
-                                <entry key="INFO" value-ref="consoleEventLogger"/>
-                                <entry key="ERROR" value-ref="combinedEventLogger"/>
-                        </map>
-                </constructor-arg>
+        <bean id="app" class="App"
+              c:client-ref="client" c:eventLogger-ref="cacheFileEventLogger" c:loggers-ref="loggersMap">
                 <property name="type">
                         <null/>
                 </property>
@@ -32,5 +31,22 @@
                         <bean class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
                 </constructor-arg>
         </bean>
+
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        p:ignoreResourceNotFound="true">
+                <property name="locations">
+                        <list>
+                                <value>classpath:client.properties</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <util:properties id="properties" location="classpath:client.properties"/>
+        <util:map id="loggersMap">
+                <entry key="ERROR" value-ref="combinedEventLogger"/>
+                <entry key="INFO" value-ref="consoleEventLogger"/>
+        </util:map>
+        <util:map id="treeMap" map-class="java.util.TreeMap"/>
 
 </beans>
