@@ -1,5 +1,9 @@
 package beans;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PreDestroy;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.PriorityQueue;
@@ -8,6 +12,7 @@ import java.util.Random;
 /**
  * Created by arpi on 31.10.2016.
  */
+
 public class Event {
     private int id = new Random().nextInt(100);
     private String msg;
@@ -34,6 +39,11 @@ public class Event {
                 ", msg='" + msg + '\'' +
                 ", date=" + df.format(date) +
                 '}';
+    }
+
+    @PreDestroy
+    private void destroy(){
+        System.out.println("Event bean deleted----");
     }
 
 }

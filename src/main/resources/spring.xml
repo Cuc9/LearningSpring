@@ -3,18 +3,24 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd">
         <import resource="loggers.xml"/>
+        <context:component-scan base-package="beans"/>
+        
+        <context:annotation-config/>
 
-        <bean id="client" class="beans.Client"
-              c:id="${id}" c:fullName="${fullName}"
+        <!--<bean id="client" class="beans.Client"
+
                p:greeting="${greeting}">
-                <property name="type">
+                &lt;!&ndash;c:id="${id}" c:fullName="${fullName}"&ndash;&gt;
+                &lt;!&ndash;<property name="type">
                         <util:constant static-field="java.lang.Math.PI"/>
-                </property>
-        </bean>
+                </property>&ndash;&gt;
+        </bean>-->
 
         <bean id="app" class="App"
               c:client-ref="client" c:eventLogger-ref="cacheFileEventLogger" c:loggers-ref="loggersMap">

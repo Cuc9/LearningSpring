@@ -3,6 +3,7 @@ import beans.Event;
 import beans.EventType;
 import loggers.CombinedEventLogger;
 import loggers.IEventLogger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,9 +15,11 @@ import java.util.Map;
  * Created by arpi on 30.10.2016.
  */
 public class App {
+    @Autowired
     private Client client;
     private IEventLogger eventLogger;
     private Map<EventType, IEventLogger> loggers;
+    @Autowired
     private static EventType type;
 
     public App() {

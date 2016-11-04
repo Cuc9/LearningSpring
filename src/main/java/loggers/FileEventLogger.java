@@ -3,6 +3,7 @@ package loggers;
 import beans.Event;
 import org.apache.commons.io.FileUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,13 +29,14 @@ public class FileEventLogger implements IEventLogger {
 
     public void logEvent(Event event) {
         try {
-            FileUtils.writeStringToFile(logFile, event.toString(), "UTF-8", append);
+            FileUtils.writeStringToFile(logFile, event.toString() + "\n", "UTF-8", append);
             System.out.println("--- File was appended");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @PostConstruct
     public void init() throws IOException {
         this.logFile = new File(fileName);
         System.out.println("--- Assigned file - " + logFile.getName());

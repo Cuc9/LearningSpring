@@ -2,6 +2,7 @@ package loggers;
 
 import beans.Event;
 
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
