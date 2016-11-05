@@ -11,18 +11,13 @@ import javax.annotation.PreDestroy;
 /**
  * Created by arpi on 30.10.2016.
  */
-@Component("client")
-@Scope("singleton")
 public class Client{
-    @Value("${id}")
     private String id;
-    @Value("${fullName}")
     private String fullName;
-    @Value("${greeting}")
     private String greeting;
-    private float type;
+    private double type;
 
-    public void setType(float type) {
+    public void setType(double type) {
         this.type = type;
     }
 
@@ -50,8 +45,8 @@ public class Client{
         this.greeting = greeting;
     }
 
-    /*@PreDestroy
+    @PreDestroy
     private void destroy(){
         System.out.println("Client bean deleted----");
-    }*/
+    }
 }

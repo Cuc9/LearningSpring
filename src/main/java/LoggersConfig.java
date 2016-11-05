@@ -13,19 +13,16 @@ import java.util.List;
 @Configuration
 public class LoggersConfig {
     @Bean
-    @Scope("singleton")
     public ConsoleEventLogger consoleEventLogger(){
         return new ConsoleEventLogger();
     }
 
     @Bean
-    @Scope("singleton")
     public FileEventLogger fileEventLogger(){
         return new FileEventLogger("");
     }
 
     @Bean
-    @Scope("singleton")
     public CacheFileEventLogger cacheFileEventLogger(){
         return new CacheFileEventLogger(4,"D:\\JAVA\\LearningSpring\\src\\main\\resources\\CachedLogFile.txt");
     }
