@@ -1,6 +1,7 @@
 package loggers;
 
 import beans.Event;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by arpi on 01.11.2016.
  */
+
 public class CacheFileEventLogger extends FileEventLogger {
     private int cacheSize;
     private List<Event> cache;
@@ -28,6 +30,7 @@ public class CacheFileEventLogger extends FileEventLogger {
         }
     }
 
+    @PreDestroy
     private void destroy (){
         if (!cache.isEmpty()){
             writeEventsFromCache();

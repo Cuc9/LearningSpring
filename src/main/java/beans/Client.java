@@ -1,5 +1,7 @@
 package beans;
 
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ import javax.annotation.PreDestroy;
  */
 @Component("client")
 @Scope("singleton")
-public class Client {
+public class Client{
     @Value("${id}")
     private String id;
     @Value("${fullName}")
@@ -48,8 +50,8 @@ public class Client {
         this.greeting = greeting;
     }
 
-    @PreDestroy
+    /*@PreDestroy
     private void destroy(){
         System.out.println("Client bean deleted----");
-    }
+    }*/
 }
