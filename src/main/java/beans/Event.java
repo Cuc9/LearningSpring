@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -35,9 +36,9 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "id=" + id +
-                ", msg='" + msg + '\'' +
-                ", date=" + df.format(date) +
+                "id = " + id +
+                ", msg = '" + msg + '\'' +
+                ", date = " + df.format(date) +
                 '}';
     }
 
@@ -45,5 +46,15 @@ public class Event {
     private void destroy(){
         System.out.println("Event bean deleted----");
     }
+
+    public static boolean isDay(){
+        Calendar calDate = Calendar.getInstance();
+        int hour = calDate.get(Calendar.HOUR_OF_DAY);
+        if ((hour > 7) && (hour < 17)) {
+            return true;
+        }
+        return false;
+    }
+
 
 }

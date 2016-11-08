@@ -13,14 +13,13 @@
         
         <context:annotation-config/>
 
-        <!--<bean id="client" class="beans.Client"
-
-               p:greeting="${greeting}">
-                &lt;!&ndash;c:id="${id}" c:fullName="${fullName}"&ndash;&gt;
-                &lt;!&ndash;<property name="type">
+        <bean id="client" class="beans.Client"
+               p:greeting="${greeting}"
+               c:id="${id}" c:fullName="${fullName}">
+                <property name="type">
                         <util:constant static-field="java.lang.Math.PI"/>
-                </property>&ndash;&gt;
-        </bean>-->
+                </property>
+        </bean>
 
         <bean id="app" class="App"
               c:client-ref="client" c:eventLogger-ref="cacheFileEventLogger" c:loggers-ref="loggersMap">

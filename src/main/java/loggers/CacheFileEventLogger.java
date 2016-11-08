@@ -34,7 +34,6 @@ public class CacheFileEventLogger extends FileEventLogger {
     private void destroy (){
         if (!cache.isEmpty()){
             writeEventsFromCache();
-            //cache.clear();
             System.out.println("Destroy called with some cache info");
         } else {System.out.println("Destroy called with EMPTY cache");}
 

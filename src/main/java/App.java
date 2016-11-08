@@ -6,6 +6,7 @@ import loggers.IEventLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -15,11 +16,9 @@ import java.util.Map;
  * Created by arpi on 30.10.2016.
  */
 public class App {
-    @Autowired
     private Client client;
     private IEventLogger eventLogger;
     private Map<EventType, IEventLogger> loggers;
-    @Autowired
     private static EventType type;
 
     public App() {
@@ -46,7 +45,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("xml\\spring.xml");
         App app = ctx.getBean("app", App.class);
         for (int i = 0; i < 3; i++) {
             try {

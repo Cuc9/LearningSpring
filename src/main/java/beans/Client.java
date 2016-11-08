@@ -47,6 +47,6 @@ public class Client{
 
     @PreDestroy
     private void destroy(){
-        System.out.println("Client bean deleted----");
+        System.out.println("Client" + fullName + " bean deleted----");
     }
 }
